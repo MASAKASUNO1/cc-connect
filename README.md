@@ -1,3 +1,40 @@
+<!-- ============================================================= -->
+<!-- 社内フォーク版 (BondAI) — 公式版にない追加機能あり。下記必読。       -->
+<!-- ============================================================= -->
+
+> ## 🔧 社内フォーク版 (BondAI) — ビルドして使う
+>
+> これは [`chenhg5/cc-connect`](https://github.com/chenhg5/cc-connect) のフォークで、**公式版（npm / brew）には未搭載の追加機能**を含みます:
+>
+> - **Slack `session_scope = "thread"`** — Slack のスレッドごとに独立したセッション（新規トップレベル発言＝新会話、スレッド返信＝継続）
+> - **tmux `window_per_session = true`** — セッションごとに専用 tmux ウィンドウ＆Claude インスタンス（会話が混ざらない）
+>
+> ⚠️ **npm / brew では入りません**（公式ビルドのため）。**必ずソースからビルド**してください:
+>
+> ```bash
+> git clone https://github.com/MASAKASUNO1/cc-connect.git
+> cd cc-connect
+> make build              # Web UI 不要なら make build-noweb
+> ./cc-connect            # 初回: ~/.cc-connect/config.toml を生成して終了
+> # config を編集（or 既存PCの ~/.cc-connect/config.toml をコピー）してから
+> ./cc-connect            # 再実行で起動
+> ```
+>
+> **要件**: Go 1.25+ / `make` /（Web UI 用に node + npm|pnpm）。生成バイナリは OS・アーキ依存なので **各 PC でビルド**してください。
+>
+> **config 例**（該当 platform / agent の `options` に追記）:
+> ```toml
+> [projects.platforms.options]   # type = "slack"
+> session_scope = "thread"       # "user"(既定) | "channel" | "thread"
+>
+> [projects.agent.options]       # type = "tmux"
+> window_per_session = true
+> ```
+>
+> 本家への提案 PR: [`chenhg5/cc-connect#1179`](https://github.com/chenhg5/cc-connect/pull/1179)（マージされれば公式 npm でも使えるようになります）。
+>
+> ---
+
 <p align="center">
   <img src="./docs/images/banner.svg" alt="CC-Connect Banner" width="800"/>
 </p>
